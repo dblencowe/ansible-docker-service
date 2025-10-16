@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - fix-release-workflow
 
 jobs:
   release:
@@ -24,15 +23,15 @@ jobs:
       - name: 📝 Bump version and generate changelog
         uses: qzb/standard-version-action@v1.0.5
 
-      # - name: ⬆️ Push new tag and commit
-      #   run: |
-      #     git push --follow-tags origin main
+      - name: ⬆️ Push new tag and commit
+        run: |
+          git push --follow-tags origin main
 
-      # - name: 📝 Create GitHub Release
-      #   uses: softprops/action-gh-release@v2
-      #   if: startsWith(github.ref, 'refs/tags/v')
-      #   with:
-      #     tag_name: ${{ steps.release.outputs.tag }}
-      #     name: Release ${{ steps.release.outputs.tag }}
-      #     body_path: CHANGELOG.md
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📝 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          tag_name: ${{ steps.release.outputs.tag }}
+          name: Release ${{ steps.release.outputs.tag }}
+          body_path: CHANGELOG.md
+          token: ${{ secrets.GITHUB_TOKEN }}
