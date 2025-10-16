@@ -7,7 +7,7 @@ Include this role to setup a simple Docker container managed by systemd.
 - src: git@github.com:dblencowe/ansible-docker-service.git
   scm: git
   version: main
-  name: dblencowe.docker-service
+  name: dblencowe.docker_systemd_service
 ```
 
 ```yaml
@@ -15,7 +15,7 @@ Include this role to setup a simple Docker container managed by systemd.
 # deploy.yml
 - name: Deploy example docker service
   include_role:
-    name: dblencowe.docker-service
+    name: dblencowe.docker_systemd_service
   vars:
     service_name: example-service
     volumes: ['volume_name']
