@@ -1,5 +1,5 @@
 ---
-- name: Install prerequisite packages (e.g., python-docker for 'docker_image' module, if used)
+- name: Install prerequisite packages
   ansible.builtin.package:
     name:
       - docker-ce
@@ -14,10 +14,10 @@
 
 - name: Log into private registry and force re-authorization
   docker_login:
-    registry: "{{ registry }}"
+    registry_url: "{{ registry }}"
     username: "{{ registry_user | default('') }}"
     password: "{{ registry_pass | default('') }}"
-  when: registry is defined
+  when: registry | string | length > 0
 
 - name: Pull an image
   community.docker.docker_image:
