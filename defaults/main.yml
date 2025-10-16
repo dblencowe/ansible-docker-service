@@ -1,0 +1,9 @@
+registry:
+registry_user:
+registry_pass:
+
+service_name: placeholder
+image: alpine
+docker_run_args:
+
+volumes: []
