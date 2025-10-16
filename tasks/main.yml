@@ -13,10 +13,11 @@
   when: volumes is defined and volumes | length > 0
 
 - name: Log into private registry and force re-authorization
-  docker_login:
+  community.docker.docker_login:
     registry_url: "{{ registry }}"
     username: "{{ registry_user | default('') }}"
     password: "{{ registry_pass | default('') }}"
+    reauthorize: true
   when: registry | string | length > 0
 
 - name: Pull an image
@@ -42,6 +43,6 @@
 
 - name: Ensure docker service is running and enabled
   ansible.builtin.systemd:
-    name: "{{ docker_service_name }}.service"
+    name: "{{ service_name }}.service"
     state: started
     enabled: yes
