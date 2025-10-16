@@ -10,12 +10,14 @@
   community.docker.docker_volume:
     name: "{{ item }}"
   with_items: "{{ volumes }}"
+  when: volumes is defined and volumes | length > 0
 
 - name: Log into private registry and force re-authorization
   docker_login:
     registry: "{{ registry }}"
-    username: "{{ registry_user }}"
-    password: "{{ registry_pass }}"
+    username: "{{ registry_user | default('') }}"
+    password: "{{ registry_pass | default('') }}"
+  when: registry is defined
 
 - name: Pull an image
   community.docker.docker_image:
