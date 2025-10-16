@@ -9,8 +9,8 @@
 - name: Create docker volumes
   community.docker.docker_volume:
     name: "{{ item }}"
-  with_items: "{{ volumes }}"
-  when: volumes is defined and volumes | length > 0
+  with_items: "{{ docker_volumes }}"
+  when: docker_volumes is defined and docker_volumes | length > 0
 
 - name: Log into private registry and force re-authorization
   community.docker.docker_login:
@@ -22,27 +22,28 @@
 
 - name: Pull an image
   community.docker.docker_image:
-    name: "{{ image }}"
+    name: "{{ docker_image }}"
     source: pull
 
 - name: Create systemd service file
-  template:
+  ansible.builtin.template:
     src: "service_template.service.j2"
-    dest: /etc/systemd/system/{{ service_name }}.service
+    dest: /etc/systemd/system/{{ docker_service_name }}.service
+    mode: "0644"
   vars:
-    service_name: "{{ service_name }}"
-    image: "{{ image }}"
-    docker_run_args: "{{ docker_run_args | default('') }}"
+    service_name: "{{ docker_service_name }}"
+    image: "{{ docker_image }}"
+    run_args: "{{ docker_run_args | default('') }}"
   notify:
-    - enable docker service
-    - restart docker service
+    - Enable docker service
+    - Restart docker service
 
 - name: Reload systemd daemon
   ansible.builtin.systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: Ensure docker service is running and enabled
   ansible.builtin.systemd:
-    name: "{{ service_name }}.service"
+    name: "{{ docker_service_name }}.service"
     state: started
-    enabled: yes
+    enabled: true
