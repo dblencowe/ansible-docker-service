@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - fix-release-workflow
 
 jobs:
   release:
@@ -15,30 +16,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🛠️ Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: 📦 Install standard-version
-        run: npm install -g standard-version
-
-      - name: 🔑 Configure Git and Standard Version
+      - name: 🔑 Configure Git
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          standard-version --no-verify
-          
-      - name: ⬆️ Push new tag and commit
-        run: |
-          git push --follow-tags origin main
+      
+      - name: 📝 Bump version and generate changelog
+        uses: qzb/standard-version-action@v1.0.5
 
-      - name: 📝 Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/v')
-        with:
-          tag_name: ${{ steps.release.outputs.tag }}
-          name: Release ${{ steps.release.outputs.tag }}
-          body_path: CHANGELOG.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: ⬆️ Push new tag and commit
+      #   run: |
+      #     git push --follow-tags origin main
+
+      # - name: 📝 Create GitHub Release
+      #   uses: softprops/action-gh-release@v2
+      #   if: startsWith(github.ref, 'refs/tags/v')
+      #   with:
+      #     tag_name: ${{ steps.release.outputs.tag }}
+      #     name: Release ${{ steps.release.outputs.tag }}
+      #     body_path: CHANGELOG.md
+      #     token: ${{ secrets.GITHUB_TOKEN }}
