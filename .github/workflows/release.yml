@@ -9,6 +9,8 @@ jobs:
   release:
     name: Standard Version Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
