@@ -2,8 +2,8 @@ registry: ""
 registry_user: ""
 registry_pass: ""
 
-service_name:
-image:
+docker_service_name:
+docker_image:
 docker_run_args:
 
-volumes: []
+docker_volumes: []
