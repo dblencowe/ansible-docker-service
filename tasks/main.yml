@@ -34,6 +34,7 @@
     service_name: "{{ docker_service_name }}"
     image: "{{ docker_image }}"
     run_args: "{{ docker_run_args | default('') }}"
+    command: "{{ docker_command | default('') }}"
   notify:
     - Enable docker service
     - Restart docker service

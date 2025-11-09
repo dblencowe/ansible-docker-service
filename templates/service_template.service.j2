@@ -10,7 +10,7 @@ ExecStartPre=-/usr/bin/docker kill {{ service_name }}
 ExecStartPre=-/usr/bin/docker rm {{ service_name }}
 ExecStart=/usr/bin/docker run --name {{ service_name }} \
   {{ run_args }} \
-  {{ image }}
+  {{ image }}{% if command is defined and command | string | length > 0 %} {{ command }}{% endif %}
 ExecStop=/usr/bin/docker stop {{ service_name }}
 
 [Install]
