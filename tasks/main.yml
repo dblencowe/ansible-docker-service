@@ -48,7 +48,7 @@
   ansible.builtin.systemd:
     name: "{{ docker_service_name }}.service"
     state: restarted
-  when: docker_service_unit is changed
+  when: docker_service_unit is changed  # noqa: no-handler
 
 - name: Ensure docker service is running and enabled
   ansible.builtin.systemd:
