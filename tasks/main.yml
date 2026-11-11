@@ -35,13 +35,20 @@
     image: "{{ docker_image }}"
     run_args: "{{ docker_run_args | default('') }}"
     command: "{{ docker_command | default('') }}"
-  notify:
-    - Enable docker service
-    - Restart docker service
+  register: docker_service_unit
 
 - name: Reload systemd daemon
   ansible.builtin.systemd:
     daemon_reload: true
+
+# A task, not a handler: handlers run once per play with whatever
+# docker_service_name was last set, so when the role is included several
+# times (or in a loop) only the last service was ever restarted.
+- name: Restart docker service when its unit file changed
+  ansible.builtin.systemd:
+    name: "{{ docker_service_name }}.service"
+    state: restarted
+  when: docker_service_unit is changed
 
 - name: Ensure docker service is running and enabled
   ansible.builtin.systemd:

@@ -7,7 +7,6 @@ This project is an Ansible role for deploying and managing Docker containers as 
 - `tasks/main.yml`: Main logic for role execution. Handles Docker container setup and systemd service management.
 - `templates/service_template.service.j2`: Jinja2 template for generating the systemd service file for the Docker container.
 - `defaults/main.yml`: Default variables for the role. Override these in your playbook as needed.
-- `handlers/main.yml`: Handlers for service reload/restart.
 
 ## Usage Pattern
 - Include this role in your playbook and provide required variables such as `service_name`, `image`, and `volumes`.

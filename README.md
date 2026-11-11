@@ -47,7 +47,7 @@ Include the role in your playbook and provide required variables:
 - `tasks/main.yml`: Main role logic
 - `templates/service_template.service.j2`: Systemd service file template
 - `defaults/main.yml`: Default variables
-- `handlers/main.yml`: Service reload/restart handlers
+- The service is restarted only when its generated unit file changes (e.g. a new `docker_image` tag)
 
 ## Notes
 
